@@ -10,6 +10,16 @@ pub fn read_input(file_path: &str) -> Result<String, std::io::Error> {
     let input_path = PathBuf::from(dir_name).join(file_path);
     fs::read_to_string(input_path)
 }
+pub fn write_output(content: &str) -> Result<(), std::io::Error> {
+    let exe_path = std::env::current_exe()?;
+    let dir_name = exe_path
+        .file_name()
+        .ok_or_else(|| io::Error::new(io::ErrorKind::NotFound, "crash and burn zzz"))?
+        .to_str()
+        .unwrap();
+    let output_path = PathBuf::from(dir_name).join("output.txt");
+    fs::write(output_path, content)
+}
 
 
 pub fn split_lines(input: &str) -> Vec<&str> {
